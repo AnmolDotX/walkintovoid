@@ -127,7 +127,13 @@ const EditPostPage = () => {
           {post.bannerImage && !bannerImageFile && (
             <div className="mt-2">
               <p className="text-sm">Current image:</p>
-              <Image src={post.bannerImage} alt="Current banner" className="mt-1 h-32 w-auto rounded-md" />
+              <Image
+                src={post.bannerImage}
+                width={1020}
+                height={720}
+                alt="Current banner"
+                className="mt-1 h-32 w-auto rounded-md"
+              />
             </div>
           )}
         </div>

@@ -37,10 +37,12 @@ const PostDetailPage = async ({ params }: { params: Promise<{ slug: string }> })
   return (
     <article className="prose prose-invert mx-auto max-w-3xl px-4 py-12">
       <div className="mb-8 text-center">
-        {post.bannerImage && (
+        {post?.bannerImage && (
           <Image
             src={post.bannerImage}
             alt={post.title}
+            width={1020}
+            height={720}
             className="h-full w-full rounded-lg border border-white object-cover shadow-2xl shadow-black"
           />
         )}
