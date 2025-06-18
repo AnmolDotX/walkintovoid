@@ -37,8 +37,12 @@ const SignUpPage = () => {
       }
 
       setStep(2); // Move to OTP verification step
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+        return;
+      }
+      setError('Unknow error while sending OTP.');
     } finally {
       setIsLoading(false);
     }
@@ -74,8 +78,12 @@ const SignUpPage = () => {
         router.push('/');
         router.refresh();
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+        return;
+      }
+      setError('unknow error while verifying OTP');
     } finally {
       setIsLoading(false);
     }

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import MdxEditor from '@/components/editor/MdxEditor';
 import { mdxComponents } from '@/components/mdx/mdx-components';
+import Image from 'next/image';
 
 const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME!;
 
@@ -77,9 +78,13 @@ const EditPostPage = () => {
       toast.success('Post updated successfully!');
       router.push('/admin-posts');
       router.refresh();
-    } catch (error: any) {
-      console.error('Update failed:', error);
-      toast.error(`Update failed: ${error.message}`);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Update failed:', error);
+        toast.error(`Update failed: ${error.message}`);
+      } else {
+        toast.error('Unknow error while updating post!');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -90,9 +95,14 @@ const EditPostPage = () => {
       const url = await uploadFile(file);
       toast.success('Image uploaded to editor!');
       return url;
-    } catch (error: any) {
-      toast.error(`Editor upload failed: ${error.message}`);
-      throw error;
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`Editor upload failed: ${error.message}`);
+        throw error;
+      } else {
+        toast.error('Error uploading image');
+        throw new Error(`Unknow error : ${JSON.stringify(error)}`);
+      }
     }
   };
 
@@ -117,13 +127,14 @@ const EditPostPage = () => {
           {post.bannerImage && !bannerImageFile && (
             <div className="mt-2">
               <p className="text-sm">Current image:</p>
-              <img src={post.bannerImage} alt="Current banner" className="mt-1 h-32 w-auto rounded-md" />
+              <Image src={post.bannerImage} alt="Current banner" className="mt-1 h-32 w-auto rounded-md" />
             </div>
           )}
         </div>
         <div>
           <label>Content</label>
           <MdxEditor
+            height={600}
             value={post.content}
             onChange={(value) => setPost({ ...post, content: value || '' })}
             onImageUpload={handleImageUploadInEditor}

@@ -24,7 +24,7 @@ export async function GET() {
     });
     return NextResponse.json(posts);
   } catch (error) {
-    return new NextResponse(JSON.stringify({ error: 'Failed to fetch posts' }), { status: 500 });
+    return new NextResponse(JSON.stringify({ error: `failed to fetch posts : ${error}` }), { status: 404 });
   }
 }
 
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     return NextResponse.json(newPost, { status: 201 });
   } catch (error) {
     console.error('Post creation error:', error);
-    if (error instanceof Error && 'code' in error && (error as any).code === 'P2002') {
+    if (error instanceof Error && 'code' in error && (error).code === 'P2002') {
          return new NextResponse(JSON.stringify({ error: 'A post with this slug already exists.' }), { status: 409 });
     }
     return new NextResponse(JSON.stringify({ error: 'Failed to create post' }), { status: 500 });

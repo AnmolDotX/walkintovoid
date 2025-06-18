@@ -5,7 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '@/lib/db';
 import { compare } from 'bcryptjs';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { Adapter, AdapterUser } from 'next-auth/adapters';
 
 const adminEmail = process.env.ADMIN_EMAIL;
@@ -20,7 +20,7 @@ const CustomPrismaAdapter = (p: PrismaClient): Adapter => {
         data.userType = 'ADMIN';
       }
       const user = await p.user.create({ data });
-      return user as any;
+      return user as User;
     },
   };
 };

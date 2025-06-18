@@ -146,7 +146,7 @@ const AdminPosts = () => {
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription>
               This action cannot be undone. This will permanently delete the post titled
-              <span className="font-bold"> "{postToDelete?.title}"</span>.
+              <span className="font-bold"> &quot;{postToDelete?.title}&quot;</span>.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

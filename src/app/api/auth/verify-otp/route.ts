@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
   } catch (error) {
     console.error('Verification Error:', error);
-    if (error instanceof Error && 'code' in error && (error as any).code === 'P2002') {
+    if (error instanceof Error && 'code' in error && (error).code === 'P2002') {
         return new NextResponse(JSON.stringify({ error: 'A user with this email already exists.' }), { status: 409 });
     }
     return new NextResponse(JSON.stringify({ error: 'An internal error occurred' }), { status: 500 });

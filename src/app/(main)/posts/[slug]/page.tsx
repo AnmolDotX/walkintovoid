@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import prisma from '@/lib/db';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/mdx/mdx-components';
+import Image from 'next/image';
 
 export const revalidate = 3600;
 
@@ -37,9 +38,11 @@ const PostDetailPage = async ({ params }: { params: Promise<{ slug: string }> })
     <article className="prose prose-invert mx-auto max-w-3xl px-4 py-12">
       <div className="mb-8 text-center">
         {post.bannerImage && (
-          <div className="mb-8 overflow-hidden rounded-lg shadow-lg">
-            <img src={post.bannerImage} alt={post.title} className="h-full w-full object-cover" />
-          </div>
+          <Image
+            src={post.bannerImage}
+            alt={post.title}
+            className="h-full w-full rounded-lg border border-white object-cover shadow-2xl shadow-black"
+          />
         )}
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">{post.title}</h1>
         <p className="mt-2 text-lg text-gray-400">

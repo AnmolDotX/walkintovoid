@@ -1,20 +1,32 @@
-// src/components/mdx/mdx-components.tsx
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
 import Link from 'next/link';
 import Callout from './Callout';
+import Divider from './Divider';
+import Quote from './Quote';
+import Glimpse from './Glimpse';
+import { AnchorHTMLAttributes, ComponentType } from 'react';
 
-/**
- * This is the central "casting list" for all MDX content.
- * It maps HTML tags or custom component names to your React components.
- */
-export const mdxComponents = {
-  // --- Re-map standard HTML tags ---
-  img: (props: any) => (
-    <span className="my-6 block overflow-hidden rounded-lg shadow-lg">
-      <Image width={800} height={450} alt={props.alt || ''} {...props} />
-    </span>
-  ),
-  a: (props: any) => {
+//@ts-nocheck
+export function withUnknownProps<T extends Record<string, ComponentType<any>>>(
+  components: T,
+): { [K in keyof T]: ComponentType<unknown> } {
+  return components;
+}
+
+export const mdxComponents = withUnknownProps({
+  img: (props: ImageProps) => {
+    const { alt, className, ...rest } = props;
+    return (
+      <Image
+        width={800}
+        height={450}
+        className={className || 'my-6 overflow-hidden rounded-lg object-cover'}
+        alt={alt || ''}
+        {...rest}
+      />
+    );
+  },
+  a: (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
     const href = props.href || '';
     if (href.startsWith('http')) {
       return <a href={href} target="_blank" rel="noopener noreferrer" {...props} />;
@@ -26,13 +38,14 @@ export const mdxComponents = {
 
   // For next-mdx-remote (final render), which respects casing.
   Callout,
-
-  // --- ADD THIS SECTION FOR EDITOR PREVIEW COMPATIBILITY ---
-
-  // For react-md-editor's preview, which lowercases custom tags.
-  // We map the lowercase name to the same uppercase component.
   callout: Callout,
+  Divider,
+  divider: Divider,
+  Quote,
+  quote: Quote,
+  Glimpse,
+  glimpse: Glimpse,
 
   // If you added a <YouTubeEmbed> component, you would also add:
   // youtubeembed: YouTubeEmbed,
-};
+});

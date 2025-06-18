@@ -1,12 +1,12 @@
-// src/components/editor/MdxEditor.tsx
 'use client';
 
 import MDEditor, { commands, ICommand, MDEditorProps } from '@uiw/react-md-editor';
 import { Upload } from 'lucide-react';
+import { ComponentType } from 'react';
 
 interface CustomMdxEditorProps extends MDEditorProps {
   onImageUpload?: (file: File) => Promise<string>;
-  previewComponents?: { [key: string]: React.ComponentType<any> };
+  previewComponents?: { [key: string]: ComponentType<unknown> };
 }
 
 const MdxEditor = ({ onImageUpload, previewComponents, ...rest }: CustomMdxEditorProps) => {

@@ -88,7 +88,7 @@ const SignInPage = () => {
           Sign In with Google
         </Button>
         <p className="text-center">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/signup" className="font-medium text-blue-400 hover:underline">
             Sign Up
           </Link>

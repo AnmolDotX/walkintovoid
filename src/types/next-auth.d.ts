@@ -1,5 +1,5 @@
-// types/next-auth.d.ts
-import NextAuth from 'next-auth';
+// @ts-expect-error: Extending next-auth types
+import type { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
   interface Session {

@@ -28,7 +28,7 @@ export default function AdminLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} dark flex antialiased`}>
         <AdminSidebar />
-        <main className="flex-1 p-8">{children}</main>
+        <main className="max-h-screen flex-1 overflow-y-scroll p-8">{children}</main>
         <Toaster theme="dark" richColors />
       </body>
     </html>
