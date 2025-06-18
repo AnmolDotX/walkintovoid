@@ -1,13 +1,13 @@
 // src/app/(main)/signin/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const SignInPage = () => {
+const SignInClient = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
@@ -98,4 +98,10 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading...</div>}>
+      <SignInClient />
+    </Suspense>
+  );
+}

@@ -4,6 +4,7 @@
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
 const ErrorCard = ({ title, message, backTo }: { title: string; message: string; backTo: string }) => {
   return (
     <div className="w-full max-w-md space-y-6 rounded-lg bg-gray-800 p-8 shadow-md">
@@ -18,7 +19,7 @@ const ErrorCard = ({ title, message, backTo }: { title: string; message: string;
   );
 };
 
-const AuthErrorPage = () => {
+const ErrorClientPage = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
 
@@ -53,4 +54,10 @@ const AuthErrorPage = () => {
   );
 };
 
-export default AuthErrorPage;
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading...</div>}>
+      <ErrorClientPage />
+    </Suspense>
+  );
+}
