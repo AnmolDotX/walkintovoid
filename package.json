@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "build:production": "npm run prisma:generate && npm run prisma:deploy && next build && next telemetry disable",
     "build": "prisma generate && next build && next telemetry disable",
     "start": "next start",
     "lint": "next lint",
