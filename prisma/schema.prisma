@@ -82,24 +82,26 @@ model VerificationOtp {
 }
 
 model Post {
-  id            String     @id @default(uuid())
-  title         String
-  slug          String     @unique
-  content       String
-  excerpt       String?
-  bannerImage   String?
-  author        User       @relation(fields: [authorId], references: [id])
-  authorId      String
-  category      Category   @relation(fields: [categoryId], references: [id])
-  categoryId    String
-  tags          Tag[]      @relation("PostTags")
-  status        PostStatus @default(PENDING)
-  deleteRequest Boolean    @default(false)
-  comments      Comment[]
-  likes         Int        @default(0)
-  views         Int        @default(0)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id              String     @id @default(uuid())
+  title           String
+  slug            String     @unique
+  content         String
+  excerpt         String?
+  bannerImage     String?
+  author          User       @relation(fields: [authorId], references: [id])
+  authorId        String
+  category        Category   @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  tags            Tag[]      @relation("PostTags")
+  status          PostStatus @default(PENDING)
+  deleteRequest   Boolean    @default(false)
+  isAdvertisement Boolean    @default(false)
+  isFeatured      Boolean    @default(false)
+  comments        Comment[]
+  likes           Int        @default(0)
+  views           Int        @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 }
 
 model Comment {
