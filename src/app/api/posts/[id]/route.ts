@@ -4,8 +4,8 @@ import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/db';
 
 // GET a single post (no changes needed here, but included for completeness)
-export async function GET(req: Request, parameters: Promise<{ id: string }>) {
-  const { id } = await parameters;
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const session = await getServerSession(authOptions);
   if (!session || !['ADMIN', 'MODERATOR'].includes(session.user.userType)) {
@@ -27,8 +27,8 @@ export async function GET(req: Request, parameters: Promise<{ id: string }>) {
 }
 
 // UPDATE a post
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const session = await getServerSession(authOptions);
   if (!session || !['ADMIN', 'MODERATOR'].includes(session.user.userType)) {
@@ -69,8 +69,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 }
 
 // DELETE a post (no changes needed here)
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const session = await getServerSession(authOptions);
   if (!session || !['ADMIN', 'MODERATOR'].includes(session.user.userType)) {
