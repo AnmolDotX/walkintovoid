@@ -29,7 +29,6 @@ export async function getSliderPosts(): Promise<TPostItem[]> {
   return prisma.post.findMany({
     where: {
       status: 'APPROVED',
-      isAdvertisement: false,
       isFeatured: false,
     },
     select: postSelect,
@@ -43,7 +42,6 @@ export async function getFeaturedPosts(): Promise<TPostItem[]> {
   return prisma.post.findMany({
     where: {
       status: 'APPROVED',
-      isAdvertisement: false,
       isFeatured: true,
     },
     select: postSelect,
@@ -58,11 +56,9 @@ export async function getBentoGridPosts(): Promise<TPostItem[]> {
     where: {
       status: 'APPROVED',
       isAdvertisement: false,
-      isFeatured: false, // <-- Also not featured
     },
     select: postSelect,
     orderBy: { createdAt: 'desc' },
-    skip: 3, // <-- Skip the 3 posts we already showed in the slider
     take: 6,
   });
 }

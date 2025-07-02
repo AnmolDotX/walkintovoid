@@ -27,7 +27,7 @@ async function getPost(slug: string) {
   });
 
   if (!post) {
-    return null;
+    return notFound();
   }
 
   prisma.post

@@ -15,13 +15,31 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-type Post = {
+export interface Post {
   id: string;
   title: string;
   slug: string;
-  status: PostStatus;
-  author: { name: string };
-};
+  content: string;
+  excerpt: string | null;
+  bannerImage: string | null;
+  authorId: string;
+  categoryId: string;
+  status: 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED'; // Based on the example
+  deleteRequest: boolean;
+  isAdvertisement: boolean;
+  isFeatured: boolean;
+  likes: number;
+  views: number;
+  createdAt: string; // or `Date` if parsed
+  updatedAt: string; // or `Date` if parsed
+  author: {
+    name: string;
+  };
+  category: {
+    name: string;
+  };
+  tags: string[]; // or more complex if you plan to include tag metadata later
+}
 
 const AdminPosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -83,6 +101,8 @@ const AdminPosts = () => {
             <tr>
               <th className="p-4">Title</th>
               <th className="p-4">Status</th>
+              <th className="p-4">Advertisement</th>
+              <th className="p-4">Featured</th>
               <th className="p-4">Actions</th>
             </tr>
           </thead>
@@ -94,7 +114,7 @@ const AdminPosts = () => {
                 </td>
               </tr>
             ) : (
-              posts.map((post) => (
+              posts?.map((post) => (
                 <tr key={post.id} className="border-b border-gray-800 hover:bg-gray-800/50">
                   <td className="p-4 font-medium">{post.title}</td>
                   <td className="p-4">
@@ -108,6 +128,20 @@ const AdminPosts = () => {
                       }`}
                     >
                       {post.status}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-sm ${post.isAdvertisement ? 'border border-green-400 bg-green-500/20 text-green-300' : 'border border-red-300 bg-red-500/20 text-red-400'}`}
+                    >
+                      {JSON.stringify(post.isAdvertisement)}
+                    </span>
+                  </td>
+                  <td className={`p-4`}>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-sm ${post.isFeatured ? 'border border-green-400 bg-green-500/20 text-green-300' : 'border border-red-300 bg-red-500/20 text-red-400'}`}
+                    >
+                      {JSON.stringify(post.isFeatured)}
                     </span>
                   </td>
                   <td className="p-4">

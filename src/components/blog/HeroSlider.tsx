@@ -63,12 +63,12 @@ const HeroSlider = ({ items }: HeroSliderProps) => {
   const currentItem = items[currentIndex];
 
   return (
-    <div className="relative h-[70vh] overflow-hidden rounded-2xl bg-gray-900">
+    <div className="relative h-[50vh] overflow-hidden rounded-2xl bg-fuchsia-950">
       {/* Background Image */}
       <div className="absolute inset-0">
         {currentItem.bannerImage && (
           <Image
-          height={720}
+            height={720}
             width={1020}
             src={currentItem?.bannerImage}
             alt={currentItem.title}
@@ -81,23 +81,23 @@ const HeroSlider = ({ items }: HeroSliderProps) => {
 
       {/* Content */}
       <div className="relative z-10 flex h-full items-center">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-20">
           <div className="max-w-2xl">
             {/* Advertisement Badge */}
             {currentItem.isAdvertisement && (
-              <div className="mb-4 inline-flex items-center rounded-full border border-yellow-500/30 bg-yellow-500/20 px-3 py-1 text-xs font-medium text-yellow-300">
+              <div className="mr-2 mb-4 inline-flex items-center rounded-full border border-yellow-500/30 bg-yellow-500/20 px-3 py-1 text-xs font-medium text-yellow-300">
                 <Tag className="mr-1 h-3 w-3" />
                 Sponsored
               </div>
             )}
 
             {/* Category */}
-            <div className="mb-4 inline-flex items-center rounded-full border border-purple-500/30 bg-purple-500/20 px-3 py-1 text-sm font-medium text-purple-300">
+            <div className="mb-2 inline-flex items-center rounded-full border border-purple-500/30 bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-300">
               {currentItem.category.name}
             </div>
 
             {/* Title */}
-            <h1 className="mb-6 text-4xl leading-tight font-bold text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mb-3 text-xl leading-tight font-bold text-white sm:text-2xl lg:text-4xl">
               {currentItem.title}
             </h1>
 
@@ -105,7 +105,7 @@ const HeroSlider = ({ items }: HeroSliderProps) => {
             <p className="mb-8 line-clamp-3 text-xl leading-relaxed text-gray-300">{currentItem.excerpt}</p>
 
             {/* Meta Info */}
-            <div className="mb-8 flex items-center space-x-6 text-gray-400">
+            <div className="mb-2 flex items-center space-x-6 text-gray-400">
               <div className="flex items-center space-x-2">
                 <User className="h-4 w-4" />
                 <span>{currentItem.author.name}</span>
@@ -127,9 +127,9 @@ const HeroSlider = ({ items }: HeroSliderProps) => {
             <Link
               prefetch
               href={`/posts/${currentItem.slug}`}
-              className="inline-flex transform items-center rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-purple-500 hover:to-indigo-500 hover:shadow-purple-500/25"
+              className="inline-flex transform items-center rounded-full bg-gradient-to-r from-purple-600/80 to-indigo-600/70 px-4 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:from-purple-500/60 hover:to-indigo-500/80 hover:shadow-purple-500/25"
             >
-              Read Full Story
+              Read More
             </Link>
           </div>
         </div>
