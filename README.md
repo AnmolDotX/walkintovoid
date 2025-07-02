@@ -6,3 +6,4 @@
 - News letter contact api integration
 - nested comment and likes features
 - show ads in blog detail page(user side readin)
+- Profile, way to go to admin panel for admin
