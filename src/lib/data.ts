@@ -20,7 +20,6 @@ const postSelect = {
   },
 } satisfies Prisma.PostSelect;
 
-
 export type TPostItem = Prisma.PostGetPayload<{
   select: typeof postSelect;
 }>;
@@ -50,17 +49,56 @@ export async function getFeaturedPosts(): Promise<TPostItem[]> {
   });
 }
 
+export async function getAllPosts(params: {
+  search?: string;
+  tag?: string;
+  category?: string;
+}): Promise<TPostItem[]> {
+  const { search, tag, category } = params;
 
-export async function getBentoGridPosts(): Promise<TPostItem[]> {
+  const where: Prisma.PostWhereInput = {
+    // Only show approved posts to the public
+    status: 'APPROVED',
+    AND: [], // We will push filters into this array
+  };
+
+  // Dynamically build the where clause
+  if (search) {
+    (where.AND as Prisma.PostWhereInput[]).push({
+      OR: [
+        { title: { contains: search, mode: 'insensitive' } },
+        { content: { contains: search, mode: 'insensitive' } },
+        { excerpt: { contains: search, mode: 'insensitive' } },
+      ],
+    });
+  }
+
+  if (category) {
+    (where.AND as Prisma.PostWhereInput[]).push({
+      category: { name: { equals: category, mode: 'insensitive' } },
+    });
+  }
+
+  if (tag) {
+    (where.AND as Prisma.PostWhereInput[]).push({
+      tags: { some: { name: { equals: tag, mode: 'insensitive' } } },
+    });
+  }
+
   return prisma.post.findMany({
-    where: {
-      status: 'APPROVED',
-      isAdvertisement: false,
-    },
+    where,
     select: postSelect,
     orderBy: { createdAt: 'desc' },
-    take: 6,
   });
+}
+
+// --- NEW: Functions to populate filter dropdowns ---
+export async function getAllCategories() {
+  return prisma.category.findMany({ orderBy: { name: 'asc' } });
+}
+
+export async function getAllTags() {
+  return prisma.tag.findMany({ orderBy: { name: 'asc' } });
 }
 
 // No changes needed for the comments function
