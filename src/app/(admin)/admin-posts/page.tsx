@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PostStatus } from '@prisma/client';
-import { Eye, Trash2 } from 'lucide-react';
+import { Eye, Trash2, PlusCircle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import {
 type Post = {
   id: string;
   title: string;
-  slug: string; // We need the slug for the view link
+  slug: string;
   status: PostStatus;
   author: { name: string };
 };
@@ -68,6 +68,13 @@ const AdminPosts = () => {
     <div className="container mx-auto">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Manage Posts</h1>
+        {/* --- NEW: Create Post Button --- */}
+        <Button asChild>
+          <Link href="/admin-posts/new">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Create New Post
+          </Link>
+        </Button>
       </div>
 
       <div className="rounded-lg border border-gray-800 bg-gray-900">
@@ -105,23 +112,19 @@ const AdminPosts = () => {
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-2">
-                      {/* View Button */}
                       <Button asChild variant="ghost" size="icon" title="View as user">
                         <Link href={`/posts/${post.slug}`} target="_blank">
                           <Eye className="h-4 w-4" />
                         </Link>
                       </Button>
-                      {/* Edit Button */}
                       <Button asChild variant="outline" size="sm">
                         <Link href={`/admin-posts/${post.id}`}>Edit</Link>
                       </Button>
-                      {/* Publish Button */}
                       {post.status === 'PENDING' && (
                         <Button onClick={() => handlePublish(post.id)} size="sm">
                           Publish
                         </Button>
                       )}
-                      {/* Delete Button */}
                       <Button
                         variant="destructive"
                         size="icon"

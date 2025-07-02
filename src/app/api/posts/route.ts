@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/db';
 import { PostStatus } from '@prisma/client';
 
-// GET all posts (for Admin/Moderator)
+// GET all posts (for Admin/Moderator) - NO CHANGE
 export async function GET() {
   const session = await getServerSession(authOptions);
 
@@ -28,7 +28,7 @@ export async function GET() {
   }
 }
 
-// POST a new post
+// POST a new post - UPDATED
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 
@@ -38,7 +38,16 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { title, content, slug, categoryId, tagIds } = body;
+    const {
+      title,
+      content,
+      slug,
+      categoryId,
+      tagIds,
+      isFeatured,
+      isAdvertisement,
+      bannerImage,
+    } = body;
 
     if (!title || !content || !slug || !categoryId) {
       return new NextResponse(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
@@ -52,6 +61,9 @@ export async function POST(req: Request) {
         authorId: session.user.id,
         categoryId,
         status: PostStatus.PENDING,
+        isFeatured: isFeatured || false,
+        isAdvertisement: isAdvertisement || false,
+        bannerImage: bannerImage || null,
         tags: {
           connect: tagIds ? tagIds.map((id: string) => ({ id })) : [],
         },
@@ -61,8 +73,8 @@ export async function POST(req: Request) {
     return NextResponse.json(newPost, { status: 201 });
   } catch (error) {
     console.error('Post creation error:', error);
-    if (error instanceof Error && 'code' in error && (error).code === 'P2002') {
-         return new NextResponse(JSON.stringify({ error: 'A post with this slug already exists.' }), { status: 409 });
+    if (error instanceof Error && 'code' in error && (error as any).code === 'P2002') {
+      return new NextResponse(JSON.stringify({ error: 'A post with this slug already exists.' }), { status: 409 });
     }
     return new NextResponse(JSON.stringify({ error: 'Failed to create post' }), { status: 500 });
   }

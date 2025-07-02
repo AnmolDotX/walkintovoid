@@ -17,7 +17,14 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   }
 
   try {
-    const post = await prisma.post.findUniqueOrThrow({ where: { id } });
+        const post = await prisma.post.findUniqueOrThrow({
+      where: { id },
+      include: {
+        tags: true,
+        category: true,
+      },
+    });
+
     return NextResponse.json(post);
   } catch (error) {
     return new NextResponse(JSON.stringify({ error: `Post not found : ${error}` }), { status: 404 });

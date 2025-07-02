@@ -13,9 +13,7 @@ const adminEmail = process.env.ADMIN_EMAIL;
 const CustomPrismaAdapter = (p: PrismaClient): Adapter => {
   return {
     ...PrismaAdapter(p),
-    // Override the createUser method
     createUser: async (data: Omit<AdapterUser, "id">): Promise<AdapterUser> => {
-      // If the user's email matches the admin email, assign the ADMIN role upon creation
       if (data.email === adminEmail) {
         data.userType = 'ADMIN';
       }
@@ -76,6 +74,7 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id
         token.userType = user.userType;
       }
       return token;
