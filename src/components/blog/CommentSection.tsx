@@ -1,3 +1,5 @@
+// src/components/blog/CommentSection.tsx
+
 'use client';
 
 import { useSession } from 'next-auth/react';
@@ -5,7 +7,6 @@ import { createComment } from '@/actions/comment';
 import { useRef, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { authOptions } from '@/lib/auth';
 
 // Define a type for the comments passed as props
 type Comment = {
@@ -85,7 +86,15 @@ export const CommentSection = ({ postId, initialComments }: CommentSectionProps)
             <div className="flex-1 rounded-lg bg-gray-800 p-4">
               <div className="mb-2 flex items-center justify-between">
                 <p className="font-semibold text-white">{comment.author.name}</p>
-                <p className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleDateString()}</p>
+                {/* --- THIS IS THE FIX --- */}
+                {/* We provide specific options to ensure the format is always the same. */}
+                <p className="text-xs text-gray-500">
+                  {new Date(comment.createdAt).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
+                </p>
               </div>
               <p className="text-gray-300">{comment.content}</p>
             </div>
